@@ -1,4 +1,4 @@
-# Hello World Example 
+# Hello World Example
 
 To get familiar with how an Alfresco Engineer or a Solution Developer can build and use a deployment package for Kubernetes we have created a simple hello world app that you can use for reference as you get started.
 
@@ -17,22 +17,20 @@ The interactions between the components is shown in the following diagram:
 
 ## Prerequisites
 
-- A running Kubernetes cluster (this can be [minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) or a cluster on [AWS](https://aws.amazon.com/blogs/compute/kubernetes-clusters-aws-kops/))
-- [Helm](https://github.com/kubernetes/helm/blob/master/docs/install.md) client is installed locally and deployed to your cluster
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) is installed and configured for your cluster
+A running Kubernetes cluster. You can get the cluster up and running using our ![Tutorial](../../docs/README.md) if you do not have one already.
 
 ## How to Deploy
 
 1. Create your working namespace:
 
 ```bash
-kubectl create namespace example 
+kubectl create namespace example
 ```
 
 2. Generate a base64 value for your dockercfg, this will allow Kubernetes to access quay.io
 
 ```bash
-cat ~/.docker/config.json | base64 
+cat ~/.docker/config.json | base64
 ```
 
 NOTE: If you're using Docker for Mac ensure your "Securely store docker logins in macOS keychain" preference is OFF (as shown in the diagram below) before running this step.
@@ -117,6 +115,7 @@ helm ls
 ![UI](./diagrams/app-ui.png)
 
 4. To access different keys in the db just change "welcome" to the key you've created and you should be able to see the value set for that key.
+Check out the next steps to find out how you can create a new key.
 
 ## Accessing the REST API
 
@@ -135,7 +134,7 @@ helm ls
 3. Use the following curl command to test the REST API.
 
 ```bash
-curl [url-from-step-2]
+curl [url-from-step-2]/welcome
 ```
 
 You should see the following output:
@@ -144,7 +143,19 @@ You should see the following output:
 {"key":"welcome","value":"Hello World!"}
 </pre>
 
-4. To access different keys in the db just change "welcome" to the key you've created and you should be able to see the value set for that key.
+4. To create a new key through the service use the following curl:
+
+```bash
+curl -H "Content-Type: application/json" -d '{"key":"new-test-data","value":"Test 1,2,3"}' [url-from-step-2]
+```
+
+5. To access different keys in the db just change "welcome" to the key you've created and you should be able to see the value set for that key.
+
+```bash
+curl [url-from-step-2]/new-test-data
+```
+For more examples on using the hello service you can check the ![postman collection](./service/src/test/postman/hello-service-test-collection.json).
+This collection can also imported in the ![Postman app](https://www.getpostman.com/docs/) and used there.
 
 ## Cleaning Up
 

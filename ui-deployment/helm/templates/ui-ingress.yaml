@@ -5,7 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/rewrite-target: /
-    ingress.kubernetes.io/ssl-redirect: "false"  
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
   - http:
@@ -14,4 +14,3 @@ spec:
         backend:
           serviceName: {{ template "hello-world-ui.fullname" . }}
           servicePort: {{ .Values.ui.service.externalPort }}
-
