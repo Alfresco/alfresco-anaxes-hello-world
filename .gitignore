@@ -42,3 +42,4 @@ test-output
 package-lock.json
 node-modules
 examples/ui/dist
+ui-deployment/ui
