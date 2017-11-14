@@ -1,0 +1,7 @@
+dependencies:
+  - name: hello-world-service-app
+    version: ^0.1
+    repository: file://../../service-deployment/helm
+  - name: hello-world-ui-app
+    version: ^0.1
+    repository: file://../../ui-deployment/helm
