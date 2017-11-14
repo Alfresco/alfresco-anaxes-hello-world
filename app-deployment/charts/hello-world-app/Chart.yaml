@@ -6,8 +6,8 @@ keywords:
   - anaxes
   - hello
   - world
-home: https://github.com/Alfresco/alfresco-anaxes-hello-world/app-deployment/helm
+home: https://github.com/Alfresco/alfresco-anaxes-hello-world/app-deployment/charts
 sources:
-  - https://github.com/Alfresco/alfresco-anaxes-hello-world/app-deployment/helm
+  - https://github.com/Alfresco/alfresco-anaxes-hello-world/app-deployment/charts
 maintainers:
   - name: Alfresco

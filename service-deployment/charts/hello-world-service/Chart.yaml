@@ -7,8 +7,8 @@ keywords:
   - hello
   - world
   - service
-home: https://github.com/Alfresco/alfresco-anaxes-hello-world/service-deployment/helm
+home: https://github.com/Alfresco/alfresco-anaxes-hello-world/service-deployment/charts
 sources:
-  - https://github.com/Alfresco/alfresco-anaxes-hello-world/service-deployment/helm
+  - https://github.com/Alfresco/alfresco-anaxes-hello-world/service-deployment/charts
 maintainers:
   - name: Alfresco

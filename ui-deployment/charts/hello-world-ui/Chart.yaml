@@ -7,8 +7,8 @@ keywords:
   - hello
   - world
   - ui
-home: https://github.com/Alfresco/alfresco-anaxes-hello-world/ui-deployment/helm
+home: https://github.com/Alfresco/alfresco-anaxes-hello-world/ui-deployment/charts
 sources:
-  - https://github.com/Alfresco/alfresco-anaxes-hello-world/ui-deployment/helm
+  - https://github.com/Alfresco/alfresco-anaxes-hello-world/ui-deployment/charts
 maintainers:
   - name: Alfresco
