@@ -1,4 +1,1 @@
 dependencies:
-  - name: hello-world-service-app
-    version: 0.1
-    repository: file://../../service-deployment/helm
