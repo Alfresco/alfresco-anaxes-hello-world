@@ -26,15 +26,6 @@ target
 *.war
 *.ear
 
-# AWS
-cloud-formation-deploy.yaml
-
 # Kubernetes Helm
 requirements.lock
 **/charts/*.tgz
-
-# Alfresco
-*.log
-*.log.*
-*.lic
-test-output
