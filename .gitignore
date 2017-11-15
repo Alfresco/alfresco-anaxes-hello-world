@@ -1,0 +1,40 @@
+# Java
+*.class
+hs_err_pid*
+
+# Eclipse
+.classpath
+.settings
+.project
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Visual Studio Code
+.vscode/
+
+# Mac
+.DS_Store
+
+# Maven
+target
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# AWS
+cloud-formation-deploy.yaml
+
+# Kubernetes Helm
+requirements.lock
+**/charts/*.tgz
+
+# Alfresco
+*.log
+*.log.*
+*.lic
+test-output
