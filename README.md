@@ -51,7 +51,12 @@ You should see the output below.
 secret "quay-registry-secret" created
 </pre>
 
-5. Navigate to the 'hello-world/helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
+5. As part of the infrastucture pull the ingress chart to the namespace
+```bash
+	helm install stable/nginx-ingress --namespace example    
+```
+
+6. Navigate to the 'hello-world/helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
 
 ```bash
 helm dep update hello-world-app
@@ -71,7 +76,7 @@ Downloading nginx-ingress from repo https://kubernetes-charts.storage.googleapis
 Deleting outdated charts
 </pre>
 
-6. Deploy the helm chart in your namespace.
+7. Deploy the helm chart in your namespace.
 
 Whether you are deploying to minikube or to an AWS cluster use the command below. Keep in mind that when running on AWS the app will trigger Kubernetes to generate an Elastic Load Balancer providing access to the application and service, so you will probably have to wait a bit untill it gets created and you can access the application.
 
@@ -79,7 +84,7 @@ Whether you are deploying to minikube or to an AWS cluster use the command below
 helm install hello-world-app --namespace=example
 ```
 
-7. Check that the deployment worked by running the command below:
+8. Check that the deployment worked by running the command below:
 
 ```bash
 kubectl get pods --namespace example
