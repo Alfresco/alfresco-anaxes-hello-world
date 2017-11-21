@@ -56,6 +56,8 @@ public class AppAPITest extends AppAbstract
         commonSetup();
         
         // get the appropriate URL
+        if(url.isEmpty())
+        {
         if (isMinikubeCluster())
         {
             restApiUrl = getUrlForMinikube("ingress-controller");
@@ -64,6 +66,9 @@ public class AppAPITest extends AppAbstract
         {
             restApiUrl = getUrlForAWS("ingress-controller");
         }
+        }
+        else	restApiUrl = url;
+        
         
         // add the /hello to the base url
         StringBuffer buffer = new StringBuffer(restApiUrl);

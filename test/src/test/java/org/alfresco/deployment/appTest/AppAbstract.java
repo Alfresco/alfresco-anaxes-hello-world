@@ -35,10 +35,12 @@ public class AppAbstract
 {
     private static final String CLUSTER_TYPE = "cluster.type";
     private static final String CLUSTER_NAMESPACE = "cluster.namespace";
+    private static final String URL ="url";
     private static Log logger = LogFactory.getLog(AppAbstract.class);
     
     private String clusterType;
     private String clusterNamespace;
+    protected String url;
     private boolean isMinikubeCluster = false;
     private Properties appProperty = new Properties();
     private KubernetesClient client = new DefaultKubernetesClient();
@@ -54,6 +56,15 @@ public class AppAbstract
         appProperty.load(this.getClass().getClassLoader().getResourceAsStream("test.properties"));
         
         // get cluster type, first check system property, fall back to properties file
+        //first get the url property if it set .. then do not bother to go further 
+        url = System.getProperty(URL);
+        if(url==null)
+        {
+        	url = appProperty.getProperty(URL);
+        }
+        //** if url is empty or null only do it via cluster type and cluster name space .. 
+        if(url == null || url.isEmpty())
+        {
         clusterType = System.getProperty(CLUSTER_TYPE);
         if (clusterType == null)
         {
@@ -83,6 +94,7 @@ public class AppAbstract
         {
             isMinikubeCluster = true;
         }
+        } 
     }
 
     /**
