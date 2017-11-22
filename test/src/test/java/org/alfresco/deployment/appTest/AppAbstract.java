@@ -35,7 +35,7 @@ public class AppAbstract
 {
     private static final String CLUSTER_TYPE = "cluster.type";
     private static final String CLUSTER_NAMESPACE = "cluster.namespace";
-    private static final String URL ="url";
+    private static final String URL ="restapi.url";
     private static Log logger = LogFactory.getLog(AppAbstract.class);
     
     private String clusterType;
@@ -65,7 +65,8 @@ public class AppAbstract
         //** if url is empty or null only do it via cluster type and cluster name space .. 
         if(url == null || url.isEmpty())
         {
-        clusterType = System.getProperty(CLUSTER_TYPE);
+            logger.info("No rest URL provided falling baking to cluster type and name.");
+            clusterType = System.getProperty(CLUSTER_TYPE);
         if (clusterType == null)
         {
             clusterType = appProperty.getProperty(CLUSTER_TYPE);
