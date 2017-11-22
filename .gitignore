@@ -6,7 +6,6 @@ hs_err_pid*
 .classpath
 .settings
 .project
-.metadata
 
 # Intellij
 .idea/
@@ -27,20 +26,6 @@ target
 *.war
 *.ear
 
-# AWS
-cloud-formation-deploy.yaml
-
 # Kubernetes Helm
 requirements.lock
 **/charts/*.tgz
-
-# Alfresco
-*.log
-*.log.*
-*.lic
-test-output
-
-package-lock.json
-node-modules
-examples/ui/dist
-ui-deployment/ui
