@@ -79,7 +79,7 @@ public class AppUITest extends AppAbstract
      * @throws Exception
      * @throws
      */
-    @Test
+    @Test(groups = { "apptest" })
     public void testHelloWorldAppUrl() throws Exception
     { 
         CloseableHttpClient client = null;
@@ -116,7 +116,7 @@ public class AppUITest extends AppAbstract
      * This test will create a selenium remote driver and validate that
      * UI display the correct content
      */
-    @Test
+    @Test(groups = { "apptest" })
     public void testHelloWorldUI() throws Exception
     {
         // I have defaulted to standalone container selenium hub

@@ -48,7 +48,7 @@ public class AppAPITest extends AppAbstract
     private CloseableHttpResponse response;
     
     private String restApiUrl;
-
+    
     @BeforeClass(alwaysRun = true)
     public void setup() throws Exception
     {
@@ -91,7 +91,7 @@ public class AppAPITest extends AppAbstract
      * 
      * @throws Exception
      */
-    @Test(priority=0)
+    @Test(priority=0,groups = { "apitest", "apptest" })
     public void testInvalidApiRequest() throws Exception
     {
         client = HttpClientBuilder.create().build();
@@ -108,7 +108,7 @@ public class AppAPITest extends AppAbstract
      * @throws Exception
      * @author sprasanna
      */
-    @Test(priority=1)
+    @Test(priority=1,groups = { "apitest", "apptest" })
     public void testValidApiRequest() throws Exception
     {
         client = HttpClientBuilder.create().build();
@@ -124,7 +124,7 @@ public class AppAPITest extends AppAbstract
      * 
      * @throws Exception
      */
-    @Test(priority=2)
+    @Test(priority=2,groups = { "apitest", "apptest" })
     public void testHelloWorldApiRequest() throws Exception
     {
         HttpGet getRequest;
