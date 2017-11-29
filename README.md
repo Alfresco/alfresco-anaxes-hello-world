@@ -53,7 +53,7 @@ secret "quay-registry-secret" created
 
 5. As part of the infrastucture pull the ingress chart to the namespace
 ```bash
-	helm install stable/nginx-ingress --namespace example    
+   helm install stable/nginx-ingress --namespace example    
 ```
 
 6. Navigate to the 'hello-world/helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
