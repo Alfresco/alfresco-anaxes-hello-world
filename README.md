@@ -4,15 +4,15 @@ To get familiar with how an Alfresco Engineer or a Solution Developer can build 
 
 The application consists of several components:
 * Database
-** To store the data, [postgres](https://github.com/kubernetes/charts/tree/master/stable/postgresql) in our case
+	* To store the data, [postgres](https://github.com/kubernetes/charts/tree/master/stable/postgresql) in our case
 * [Backend REST Service](https://github.com/Alfresco/alfresco-anaxes-hello-world-service)
-** To Create/Read/Update/Delete entries in the db
+	* To Create/Read/Update/Delete entries in the db
 * [Backend REST Service Deployment](https://github.com/Alfresco/alfresco-anaxes-hello-world-service-deployment)
-** For creating Docker images and Helm charts for the service
+	* For creating Docker images and Helm charts for the service
 * [Frontend UI](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui)
-** As the interface to the backend service
+	* As the interface to the backend service
 * [Frontend UI Deployment](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment)
-** For creating Docker images and Helm charts for the UI
+	* For creating Docker images and Helm charts for the UI
 
 The components, how they are packaged and deployed is shown in the diagram below:
 
