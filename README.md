@@ -17,7 +17,7 @@ The interactions between the components is shown in the following diagram:
 
 ## Prerequisites
 
-A running Kubernetes cluster. You can get the cluster up and running using our ![Tutorial](../../docs/README.md) if you do not have one already.
+A running Kubernetes cluster. You can get the cluster up and running using our ![Tutorial](https://github.com/Alfresco/alfresco-anaxes-shipyard/blob/master/docs/running-a-cluster.md) if you do not have one already.
 
 ## How to Deploy
 
@@ -56,7 +56,7 @@ secret "quay-registry-secret" created
 	helm install stable/nginx-ingress --namespace example    
 ```
 
-6. Navigate to the 'hello-world/helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
+6. Navigate to the 'helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
 
 ```bash
 helm dep update hello-world-app
@@ -109,10 +109,10 @@ your-bison-postgresql-400070053-8mxpw                      1/1       Running   0
 helm ls
 ```
 
-2. Run the command below with the appropriate release name and namespace to get the base URL for the UI:
+2. Run the script [get-ui-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment/blob/master/scripts/get-ui-url.sh) with the appropriate release name and namespace to get the base URL for the UI:
 
 ```bash
-<code-root>/examples/hello-world/scripts/get-ui-url.sh [release] [namespace]
+<code-root>/scripts/get-ui-url.sh [release] [namespace]
 ```
 
 3. Navigate to the returned URL to use the UI. The screenshot below shows what you should see.
@@ -130,10 +130,11 @@ Check out the next steps to find out how you can create a new key.
 helm ls
 ```
 
-2. Run the command below with the appropriate release name and namespace to get the base URL for the REST API:
+2. Run the scripts [get-backend-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-service-deployment/blob/master/scripts/get-backend-url.sh) with the appropriate release name and namespace to get the base URL for the REST API:
+
 
 ```bash
-<code-root>/examples/hello-world/scripts/get-backend-url.sh [release] [namespace]
+<code-root>/scripts/get-backend-url.sh [release] [namespace]
 ```
 
 3. Use the following curl command to test the REST API.
@@ -159,7 +160,7 @@ curl -H "Content-Type: application/json" -d '{"key":"new-test-data","value":"Tes
 ```bash
 curl [url-from-step-2]/new-test-data
 ```
-For more examples on using the hello service you can check the ![postman collection](./service/src/test/postman/hello-service-test-collection.json).
+For more examples on using the hello service you can check the ![postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/blob/master/service/src/test/postman/hello-service-test-collection.json).
 This collection can also imported in the ![Postman app](https://www.getpostman.com/docs/) and used there.
 
 ## Cleaning Up
