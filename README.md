@@ -3,9 +3,16 @@
 To get familiar with how an Alfresco Engineer or a Solution Developer can build and use a deployment package for Kubernetes we have created a simple hello world app that you can use for reference as you get started.
 
 The application consists of several components:
-- Database to store the data, postgres in our case
-- Backend rest service to Create/Read/Update/Delete entries in the db
-- Frontend app as a UI for the backend service
+* Database
+** To store the data, [postgres](https://github.com/kubernetes/charts/tree/master/stable/postgresql) in our case
+* [Backend REST Service](https://github.com/Alfresco/alfresco-anaxes-hello-world-service)
+** To Create/Read/Update/Delete entries in the db
+* [Backend REST Service Deployment](https://github.com/Alfresco/alfresco-anaxes-hello-world-service-deployment)
+** For creating Docker images and Helm charts for the service
+* [Frontend UI](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui)
+** As the interface to the backend service
+* [Frontend UI Deployment](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment)
+** For creating Docker images and Helm charts for the UI
 
 The components, how they are packaged and deployed is shown in the diagram below:
 
@@ -17,7 +24,7 @@ The interactions between the components is shown in the following diagram:
 
 ## Prerequisites
 
-A running Kubernetes cluster. You can get the cluster up and running using our ![Tutorial](https://github.com/Alfresco/alfresco-anaxes-shipyard/blob/master/docs/running-a-cluster.md) if you do not have one already.
+A running Kubernetes cluster. You can get the cluster up and running using our ![Tutorial](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/docs/running-a-cluster.md) if you do not have one already.
 
 ## How to Deploy
 
@@ -109,7 +116,7 @@ your-bison-postgresql-400070053-8mxpw                      1/1       Running   0
 helm ls
 ```
 
-2. Run the script [get-ui-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment/blob/master/scripts/get-ui-url.sh) with the appropriate release name and namespace to get the base URL for the UI:
+2. Run the script [get-ui-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment/tree/master/scripts/get-ui-url.sh) with the appropriate release name and namespace to get the base URL for the UI:
 
 ```bash
 <code-root>/scripts/get-ui-url.sh [release] [namespace]
@@ -130,7 +137,7 @@ Check out the next steps to find out how you can create a new key.
 helm ls
 ```
 
-2. Run the scripts [get-backend-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-service-deployment/blob/master/scripts/get-backend-url.sh) with the appropriate release name and namespace to get the base URL for the REST API:
+2. Run the scripts [get-backend-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-service-deployment/tree/master/scripts/get-backend-url.sh) with the appropriate release name and namespace to get the base URL for the REST API:
 
 
 ```bash
@@ -160,7 +167,7 @@ curl -H "Content-Type: application/json" -d '{"key":"new-test-data","value":"Tes
 ```bash
 curl [url-from-step-2]/new-test-data
 ```
-For more examples on using the hello service you can check the ![postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/blob/master/service/src/test/postman/hello-service-test-collection.json).
+For more examples on using the hello service you can check the ![postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/tree/master/service/src/test/postman/hello-service-test-collection.json).
 This collection can also imported in the ![Postman app](https://www.getpostman.com/docs/) and used there.
 
 ## Cleaning Up
