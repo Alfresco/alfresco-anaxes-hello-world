@@ -9,7 +9,7 @@ left to right direction
 node "Kubernetes Cluster" {
     package "UI pod" {
         cloud "UI container" {
-            component [ADF App\n(Node.js)] as UI
+            component [ADF App\n(Nginx)] as UI
         }
     }
 

@@ -1,17 +1,17 @@
 # Welcome
 
-This folder contains test cases related to sample hello world application
+This folder contains test cases related to sample hello world application.
 
-There are two type of test
+There are two type of test:
 
-* Backend rest api test
+* Backend REST API test
 * UI test
 
 # Test prerequisite
 
-In order to set up selenium grid we can use the selenium standalone Firefox docker container
+In order to set up selenium grid we can use the selenium standalone Firefox docker container.
 
-Following is the docker command to get the container
+Following is the docker command to get the container:
 
     docker run -d --name <name of the container> -p 4444:4444 selenium/standalone-firefox-debug
 
@@ -25,4 +25,4 @@ Following is the docker command to get the container
 
     mvn test -U -Dcluster.type=aws  -Dcluster.namespace=<namespace of cluster>  -DsuiteXml=app_suite_testng.xml
 
-Note : app_suite_testng.xml - contains both the test related to backend and UI
+Note : app_suite_testng.xml - contains both the tests related to backend and UI
