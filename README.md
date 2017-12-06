@@ -24,7 +24,7 @@ The interactions between the components is shown in the following diagram:
 
 ## Prerequisites
 
-A running Kubernetes cluster. You can get the cluster up and running using our ![Tutorial](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/docs/running-a-cluster.md) if you do not have one already.
+See [examples prerequisites](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/examples/README.md#prerequisites)
 
 ## How to Deploy
 
@@ -34,36 +34,12 @@ A running Kubernetes cluster. You can get the cluster up and running using our !
 kubectl create namespace example
 ```
 
-2. Generate a base64 value for your dockercfg, this will allow Kubernetes to access quay.io
-
-```bash
-cat ~/.docker/config.json | base64
-```
-
-NOTE: If you're using Docker for Mac ensure your "Securely store docker logins in macOS keychain" preference is OFF (as shown in the diagram below) before running this step.
-
-[Docker Preferences](./diagrams/docker-preferences.png)
-
-3. Navigate to the 'examples' folder and insert the base64 string generated in the previous step to <code>.dockerconfigjson</code> in <code>secrets.yaml</code>
-
-4. Create your secret in your previously defined namespace.
-
-```bash
-kubectl create -f secrets.yaml --namespace example
-```
-
-You should see the output below.
-
-<pre>
-secret "quay-registry-secret" created
-</pre>
-
-5. As part of the infrastucture pull the ingress chart to the namespace
+2. As part of the infrastucture pull the ingress chart to the namespace
 ```bash
 helm install stable/nginx-ingress --namespace example    
 ```
 
-6. Navigate to the 'helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
+3. Navigate to the 'helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
 
 ```bash
 helm dep update hello-world-app
@@ -83,7 +59,7 @@ Downloading nginx-ingress from repo https://kubernetes-charts.storage.googleapis
 Deleting outdated charts
 </pre>
 
-7. Deploy the helm chart in your namespace.
+4. Deploy the helm chart in your namespace.
 
 Whether you are deploying to minikube or to an AWS cluster use the command below. Keep in mind that when running on AWS the app will trigger Kubernetes to generate an Elastic Load Balancer providing access to the application and service, so you will probably have to wait a bit untill it gets created and you can access the application.
 
@@ -91,7 +67,7 @@ Whether you are deploying to minikube or to an AWS cluster use the command below
 helm install hello-world-app --namespace=example
 ```
 
-8. Check that the deployment worked by running the command below:
+5. Check that the deployment worked by running the command below:
 
 ```bash
 kubectl get pods --namespace example
