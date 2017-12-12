@@ -28,11 +28,7 @@ See [examples prerequisites](https://github.com/Alfresco/alfresco-anaxes-shipyar
 
 ## How to Deploy
 
-1. Create your working namespace:
-
-```bash
-kubectl create namespace example
-```
+1. create the namespace and secrete based on the instruction provided in [SECRETS.md](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/examples/SECRETS.md)
 
 2. As part of the infrastucture pull the ingress chart to the namespace
 ```bash
