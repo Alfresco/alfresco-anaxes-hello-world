@@ -34,35 +34,15 @@ helm install stable/nginx-ingress --namespace example
 3. Add the helm repository so that chart dependencies can be pulled:
 
 ```bash
-helm repo add https://alfresco.github.io/charts-test/incubator
+helm repo add alfresco-test https://alfresco.github.io/charts-test/incubator
 ```
-
-4. Navigate to the 'helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
-
-```bash
-helm dep update hello-world-app
-```
-
-You should see output something similar to below.
-
-<pre>
-Hang tight while we grab the latest from your chart repositories...
-...Unable to get an update from the "local" chart repository (http://127.0.0.1:8879/charts):
-	Get http://127.0.0.1:8879/charts/index.yaml: dial tcp 127.0.0.1:8879: getsockopt: connection refused
-...Successfully got an update from the "stable" chart repository
-Update Complete. ⎈Happy Helming!⎈
-Saving 2 charts
-Downloading postgresql from repo https://kubernetes-charts.storage.googleapis.com
-Downloading nginx-ingress from repo https://kubernetes-charts.storage.googleapis.com
-Deleting outdated charts
-</pre>
 
 5. Deploy the helm chart in your namespace.
 
 Whether you are deploying to minikube or to an AWS cluster use the command below. Keep in mind that when running on AWS the app will trigger Kubernetes to generate an Elastic Load Balancer providing access to the application and service, so you will probably have to wait a bit untill it gets created and you can access the application.
 
 ```bash
-helm install hello-world-app --namespace=example
+helm install alfresco-test/hello-world-app --namespace=example
 ```
 
 6. Check that the deployment worked by running the command below:
