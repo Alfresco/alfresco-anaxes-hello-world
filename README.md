@@ -22,13 +22,9 @@ The interactions between the components is shown in the following diagram:
 
 ![Sequence-diagram](./diagrams/sequence-diagram.png "sequence-diagram")
 
-## Prerequisites
-
-See [examples prerequisites](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/examples/README.md#prerequisites)
-
 ## How to Deploy
 
-1. create the namespace and secrets based on the instruction provided in [SECRETS.md](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/examples/SECRETS.md)
+1. Create the namespace and secrets based on the instruction provided in [SECRETS.md](https://github.com/Alfresco/alfresco-anaxes-shipyard/tree/master/examples/SECRETS.md)
 
 2. As part of the infrastucture pull the ingress chart to the namespace
 ```bash
