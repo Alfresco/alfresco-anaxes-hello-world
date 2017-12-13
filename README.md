@@ -31,7 +31,13 @@ The interactions between the components is shown in the following diagram:
 helm install stable/nginx-ingress --namespace example    
 ```
 
-3. Navigate to the 'helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
+3. Add the helm repository so that chart dependencies can be pulled:
+
+```bash
+helm repo add https://alfresco.github.io/charts-test/incubator
+```
+
+4. Navigate to the 'helm' folder and update the chart dependencies to pull the postgres chart used to deploy the db.
 
 ```bash
 helm dep update hello-world-app
@@ -51,7 +57,7 @@ Downloading nginx-ingress from repo https://kubernetes-charts.storage.googleapis
 Deleting outdated charts
 </pre>
 
-4. Deploy the helm chart in your namespace.
+5. Deploy the helm chart in your namespace.
 
 Whether you are deploying to minikube or to an AWS cluster use the command below. Keep in mind that when running on AWS the app will trigger Kubernetes to generate an Elastic Load Balancer providing access to the application and service, so you will probably have to wait a bit untill it gets created and you can access the application.
 
@@ -59,7 +65,7 @@ Whether you are deploying to minikube or to an AWS cluster use the command below
 helm install hello-world-app --namespace=example
 ```
 
-5. Check that the deployment worked by running the command below:
+6. Check that the deployment worked by running the command below:
 
 ```bash
 kubectl get pods --namespace example
