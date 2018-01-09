@@ -121,8 +121,8 @@ curl -H "Content-Type: application/json" -d '{"key":"new-test-data","value":"Tes
 ```bash
 curl [url-from-step-2]/new-test-data
 ```
-For more examples on using the hello service you can check the ![postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/tree/master/service/src/test/postman/hello-service-test-collection.json).
-This collection can also imported in the ![Postman app](https://www.getpostman.com/docs/) and used there.
+For more examples on using the hello service you can check the [postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/blob/38185d9d3c9f9c50d8e867c915a214d3279cb896/src/test/postman/hello-service-test-collection.json).
+This collection can also imported in the [Postman app](https://www.getpostman.com/docs/) and used there.
 
 ## Cleaning Up
 
