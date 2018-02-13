@@ -34,7 +34,7 @@ helm install stable/nginx-ingress --namespace example
 3. Add the helm repository so that chart dependencies can be pulled:
 
 ```bash
-helm repo add alfresco-test https://alfresco.github.io/charts/incubator
+helm repo add alfresco-incubator https://alfresco.github.io/charts/incubator
 ```
 
 5. Deploy the helm chart in your namespace.
