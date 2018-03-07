@@ -42,7 +42,7 @@ helm repo add alfresco-incubator http://kubernetes-charts.alfresco.com/incubator
 Whether you are deploying to minikube or to an AWS cluster use the command below. Keep in mind that when running on AWS the app will trigger Kubernetes to generate an Elastic Load Balancer providing access to the application and service, so you will probably have to wait a bit untill it gets created and you can access the application.
 
 ```bash
-helm install alfresco-test/hello-world-app --namespace=example
+helm install alfresco-incubator/hello-world-app --namespace=example
 ```
 
 6. Check that the deployment worked by running the command below:
