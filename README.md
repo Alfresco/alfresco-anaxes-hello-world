@@ -30,8 +30,10 @@ The interactions between the components is shown in the following diagram:
 ```bash
 helm install stable/nginx-ingress --namespace example    
 ```
+3. Get the nginx-ingress-controller release name from the previous command and set it as a variable:
+export INGRESSRELEASE=knobby-wolf
 
-3. Add the helm repository so that chart dependencies can be pulled:
+4. Add the helm repository so that chart dependencies can be pulled:
 
 ```bash
 helm repo add alfresco-incubator http://kubernetes-charts.alfresco.com/incubator
@@ -70,7 +72,8 @@ your-bison-postgresql-400070053-8mxpw                      1/1       Running   0
 helm ls
 ```
 
-2. Run the script [get-ui-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment/tree/master/scripts/get-ui-url.sh) with the appropriate release name and namespace to get the base URL for the UI:
+2. Run the script [get-ui-url.sh](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment/tree/master/scripts/get-ui-url.sh) with the appropriate ingress release name set in step 2 and namespace to get the base URL for the UI:
+
 
 ```bash
 <code-root>/scripts/get-ui-url.sh [release] [namespace]
@@ -95,7 +98,7 @@ helm ls
 
 
 ```bash
-<code-root>/scripts/get-backend-url.sh [release] [namespace]
+<code-root>/scripts/get-backend-url.sh [$INGRESSRELEASE] [namespace]
 ```
 
 3. Use the following curl command to test the REST API.
@@ -132,10 +135,10 @@ This collection can also imported in the [Postman app](https://www.getpostman.co
 helm ls
 ```
 
-2. Run the command below with the appropriate release name to uninstall the deployment:
+2. Run the command below with the appropriate release name to uninstall the deployment and the ingress controller:
 
 ```bash
-helm delete [release-name]
+helm delete [release-name]  $INGRESSRELEASE
 ```
 
 3. Ensure everything has been removed by running the following command:
