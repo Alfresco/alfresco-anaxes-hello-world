@@ -44,7 +44,7 @@ public class AppAbstract
     private boolean isMinikubeCluster = false;
     private Properties appProperty = new Properties();
     private KubernetesClient client = new DefaultKubernetesClient();
-    private final int RETRY_COUNT = 10;
+    private final int RETRY_COUNT = 20;
     private final long SLEEP_DURATION = 15000;
 
     /**
