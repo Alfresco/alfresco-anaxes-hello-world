@@ -28,8 +28,76 @@ The interactions between the components is shown in the following diagram:
 
 2. As part of the infrastucture pull the ingress chart to the namespace
 ```bash
-helm install stable/nginx-ingress --version 0.8.11 --namespace example    
+helm repo update
+
+cat <<EOF > ingressvalues.yaml
+controller:
+  config:
+    ssl-redirect: "false"
+  scope:
+    enabled: true
+    namespace: $DESIREDNAMESPACE
+EOF
+
+helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
+--namespace $DESIREDNAMESPACE
 ```
+
+
+** !Optional **
+
+If you want your own certificate set here you should create a secret from your cert files:
+
+```bash
+kubectl create secret tls certsecret --key /tmp/tls.key --cert /tmp/tls.crt --namespace $DESIREDNAMESPACE
+```
+
+Then deploy the ingress with following settings
+```bash
+cat <<EOF > ingressvalues.yaml
+controller:
+  config:
+    ssl-redirect: "false"
+  scope:
+    enabled: true
+    namespace: $DESIREDNAMESPACE
+  publishService:
+    enabled: true
+  extraArgs:
+    default-ssl-certificate: $DESIREDNAMESPACE/certsecret
+EOF
+
+helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
+--namespace $DESIREDNAMESPACE
+```
+
+Or you can add an AWS generated certificate if you want and autogenerate a route53 entry
+
+```bash
+cat <<EOF > ingressvalues.yaml
+controller:
+  config:
+    ssl-redirect: "false"
+  scope:
+    enabled: true
+    namespace: $DESIREDNAMESPACE
+  publishService:
+    enabled: true
+  service:
+    targetPorts:
+      https: 80
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: #sslcert ARN -> https://github.com/kubernetes/kubernetes/blob/master/pkg/cloudprovider/providers/aws/aws.go
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+      # External dns will help you autogenerate an entry in route53 for your cluster. More info here -> https://github.com/kubernetes-incubator/external-dns
+      external-dns.alpha.kubernetes.io/hostname: $DESIREDNAMESPACE.YourDNSZone
+EOF
+
+helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
+--namespace $DESIREDNAMESPACE
+
+```
+
 3. Get the nginx-ingress-controller release name from the previous command and set it as a variable:
 export INGRESSRELEASE=knobby-wolf
 
