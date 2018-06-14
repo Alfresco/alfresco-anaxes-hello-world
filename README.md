@@ -112,21 +112,21 @@ Check out the next steps to find out how you can create a new key.
     ```bash
     curl [url-from-step-1]/new-test-data
     ```
-For more examples on using the hello service you can check the [postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/blob/master/src/test/postman/hello-service-test-collection.json).
-This collection can be also imported in the [Postman app](https://www.getpostman.com/docs/) and used there.
+For more examples on using the hello service you can import the [postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/blob/master/src/test/postman/hello-service-test-collection.json) 
+in the [Postman app](https://www.getpostman.com/docs/) and use it there.
 
 ## Cleaning Up
 
 1. Run the following command to get a list of your releases:
 
     ```bash
-    helm ls
+    helm ls --namespace example
     ```
 
 2. Run the command below with the appropriate release name to uninstall the deployment and the ingress controller:
 
     ```bash
-    helm delete [release-name]  $INGRESSRELEASE
+    helm delete --purge [release-name] $INGRESSRELEASE
     ```
 
 3. Ensure everything has been removed by running the following command:
