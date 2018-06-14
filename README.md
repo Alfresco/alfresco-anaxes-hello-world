@@ -113,7 +113,7 @@ Check out the next steps to find out how you can create a new key.
     curl [url-from-step-1]/new-test-data
     ```
 For more examples on using the hello service you can import the [postman collection](https://github.com/Alfresco/alfresco-anaxes-hello-world-service/blob/master/src/test/postman/hello-service-test-collection.json) 
-in the [Postman app](https://www.getpostman.com/docs/) and use it there.
+into the [Postman app](https://www.getpostman.com/docs/) and use it there.
 
 ## Cleaning Up
 
