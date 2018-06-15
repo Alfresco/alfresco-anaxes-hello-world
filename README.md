@@ -26,6 +26,11 @@ The interactions between the components is shown in the following diagram:
 ## How to Deploy
 
 1. Create the namespace and secrets based on the instruction provided in [SECRETS.md](https://github.com/Alfresco/alfresco-anaxes-shipyard/blob/master/SECRETS.md)
+   and set its name as an environment variable:
+   
+   ```bash
+   export DESIREDNAMESPACE=example
+   ```
 
 2. As part of the infrastucture pull the ingress chart to the namespace
     ```bash
@@ -109,7 +114,7 @@ The interactions between the components is shown in the following diagram:
 
 5. Deploy the helm chart in your namespace.
     ```bash
-    helm install alfresco-incubator/hello-world-app --namespace example
+    helm install alfresco-incubator/hello-world-app --namespace $DESIREDNAMESPACE
     ```
     Keep in mind that when running on AWS the app will trigger Kubernetes to generate an Elastic Load Balancer providing 
     access to the application and service, so you will probably have to wait a bit until it gets created and you can access 
@@ -118,7 +123,7 @@ The interactions between the components is shown in the following diagram:
 6. Check that the deployment worked by running the command below:
 
     ```bash
-    kubectl get pods --namespace example
+    kubectl get pods --namespace $DESIREDNAMESPACE
     ```
 
     You should see output something similar to below. The first time you deploy the status column will say <code>ContainerCreating</code> for a while as it needs to download the docker image. If the status column shows an error take a look at the Troubleshooting section.
@@ -137,7 +142,7 @@ The interactions between the components is shown in the following diagram:
 1. Run the following command to get url for UI
 
     ```bash
-    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace example)/hello-ui/welcome"
+    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-ui/welcome"
     ```
 
 2. Navigate to the returned URL to use the UI. The screenshot below shows what you should see.
@@ -152,7 +157,7 @@ Check out the next steps to find out how you can create a new key.
 1. Run the following command to get service 
 
     ```bash
-    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace example)/hello-service/hello/"
+    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-service/hello/"
     ```
 
 2. Use the following curl command to test the REST API.
@@ -186,7 +191,7 @@ into the [Postman app](https://www.getpostman.com/docs/) and use it there.
 1. Run the following command to get a list of your releases:
 
     ```bash
-    helm ls --namespace example
+    helm ls --namespace $DESIREDNAMESPACE
     ```
 
 2. Run the command below with the appropriate release name to uninstall the deployment and the ingress controller:
@@ -212,7 +217,7 @@ into the [Postman app](https://www.getpostman.com/docs/) and use it there.
 4. Delete the namespace.
 
     ```bash
-    kubectl delete namespace example
+    kubectl delete namespace $DESIREDNAMESPACE
     ```
 
 ## Troubleshooting
@@ -220,13 +225,13 @@ into the [Postman app](https://www.getpostman.com/docs/) and use it there.
 If the deployment is not working correctly list the pods by executing:
     
 ```bash
-kubectl get pods --namespace example
+kubectl get pods --namespace $DESIREDNAMESPACE
 ```
 
 If a pod is showing an error in the Status column run the following command to get more detailed information:
 
 ```bash
-kubectl describe pod <pod-name> --namespace example
+kubectl describe pod <pod-name> --namespace $DESIREDNAMESPACE
 ```
 
 If the events indicate there is a problem fetching the docker image check that the secret created in the Deploy section 
