@@ -6,9 +6,9 @@ The chart is intended to serve as an example of how a team should build, package
 
 This chart depends on the following charts to get the anaxes Hello World Service and anaxes Hello World UI:
 
-* [Hello world Service](http://kubernetes-charts.alfresco.com/incubator)
-* [Hello world UI](http://kubernetes-charts.alfresco.com/incubator)
+* [Hello World Service](https://github.com/Alfresco/alfresco-anaxes-hello-world-service-deployment/tree/master/helm/hello-world-service)
+* [Hello World UI](https://github.com/Alfresco/alfresco-anaxes-hello-world-ui-deployment/tree/master/helm/hello-world-ui)
 
-You can deploy this chart to a minikube or AWS cluster with:
+You can deploy this chart to a Kubernetes cluster with:
 
     helm install hello-world-app
