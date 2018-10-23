@@ -16,8 +16,6 @@
 
 package org.alfresco.deployment.appTest;
 
-import java.io.File;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +30,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -112,7 +109,7 @@ public class AppAPITest extends AppAbstract
     public void testValidApiRequest() throws Exception
     {
         client = HttpClientBuilder.create().build();
-        HttpGet getRequest = new HttpGet(restApiUrl + File.separator + "welcome");
+        HttpGet getRequest = new HttpGet(restApiUrl + "/" + "welcome");
         response = (CloseableHttpResponse) client.execute(getRequest);
         validateResponse("welcome", "Hello World!", response, 200);
     }
@@ -143,7 +140,7 @@ public class AppAPITest extends AppAbstract
         closeResponse();
 
         // retrieve new message
-        getRequest = new HttpGet(restApiUrl + File.separator + key);
+        getRequest = new HttpGet(restApiUrl + "/" + key);
         response = (CloseableHttpResponse) client.execute(getRequest);
         validateResponse(key, value, response, 200);
         closeResponse();
@@ -151,7 +148,7 @@ public class AppAPITest extends AppAbstract
         // update message
         value = RandomStringUtils.randomAlphanumeric(4);
         jsonBody = new StringEntity(generateJsonBody(key, value));
-        HttpPut putRequest = new HttpPut(restApiUrl + File.separator + key);
+        HttpPut putRequest = new HttpPut(restApiUrl + "/" + key);
         putRequest.setHeader("Content-Type", "application/json");
         putRequest.setEntity(jsonBody);
         response = (CloseableHttpResponse) client.execute(putRequest);
@@ -159,20 +156,20 @@ public class AppAPITest extends AppAbstract
         closeResponse();
 
         // get updated message
-        getRequest = new HttpGet(restApiUrl + File.separator + key);
+        getRequest = new HttpGet(restApiUrl + "/" + key);
         response = (CloseableHttpResponse) client.execute(getRequest);
         validateResponse(key, value, response, 200);
         closeResponse();
 
         // delete message
-        HttpDelete deleteRequest = new HttpDelete(restApiUrl + File.separator + key);
+        HttpDelete deleteRequest = new HttpDelete(restApiUrl + "/" + key);
         response = (CloseableHttpResponse) client.execute(deleteRequest);
         Assert.assertTrue((response.getStatusLine().getStatusCode() == 204),
                 String.format("The response code [%s] is incorrect", response.getStatusLine().getStatusCode()));
         closeResponse();
 
         // make sure message has been deleted
-        getRequest = new HttpGet(restApiUrl + File.separator + key);
+        getRequest = new HttpGet(restApiUrl + "/" + key);
         response = (CloseableHttpResponse) client.execute(getRequest);
         Assert.assertTrue((response.getStatusLine().getStatusCode() == 404),
                 String.format("The response code [%s] is incorrect", response.getStatusLine().getStatusCode()));

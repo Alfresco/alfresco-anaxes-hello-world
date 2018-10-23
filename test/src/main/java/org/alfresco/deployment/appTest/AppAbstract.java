@@ -19,6 +19,9 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Properties;
 
+import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.config.RequestConfig;
@@ -27,20 +30,18 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import io.fabric8.kubernetes.api.model.Service;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
-
 public class AppAbstract
 {
     private static final String CLUSTER_TYPE = "cluster.type";
     private static final String CLUSTER_NAMESPACE = "cluster.namespace";
-    private static final String URL ="restapi.url";
+    private static final String URL = "restapi.url";
+    private static final String AWS_URL = "aws.url";
     private static Log logger = LogFactory.getLog(AppAbstract.class);
-    
+
     private String clusterType;
     private String clusterNamespace;
     protected String url;
+    private String awsUrl;
     private boolean isMinikubeCluster = false;
     private Properties appProperty = new Properties();
     private KubernetesClient client = new DefaultKubernetesClient();
@@ -54,9 +55,9 @@ public class AppAbstract
     {
         // load properties file
         appProperty.load(this.getClass().getClassLoader().getResourceAsStream("test.properties"));
-        
+
         // get cluster type, first check system property, fall back to properties file
-        //first get the url property if it set .. then do not bother to go further 
+        // first get the url property if it set .. then do not bother to go further
         url = System.getProperty(URL);
         if(url==null)
         {
@@ -71,14 +72,21 @@ public class AppAbstract
         {
             clusterType = appProperty.getProperty(CLUSTER_TYPE);
         }
-        
+
+        // get elburl
+        awsUrl = System.getProperty(AWS_URL);
+        if (awsUrl == null)
+        {
+            awsUrl = appProperty.getProperty(AWS_URL);
+        }
+
         // get cluster namespace, first check system property, fall back to properties file
         clusterNamespace = System.getProperty(CLUSTER_NAMESPACE);
         if (clusterNamespace == null)
         {
             clusterNamespace = appProperty.getProperty(CLUSTER_NAMESPACE);
         }
-        
+
         logger.info("clusterType: " + clusterType);
         logger.info("clusterNamespace: " + clusterNamespace);
 
@@ -86,21 +94,21 @@ public class AppAbstract
         {
             throw new IllegalStateException("Cluster namespace is required, set namespace details in system property or properties file");
         }
-        
+
         // ensure namespace is lower case
         clusterNamespace = clusterNamespace.toLowerCase();
-        
+
         // set cluster type flag
         if (clusterType == null || clusterType.isEmpty() || "minikube".equalsIgnoreCase(clusterType))
         {
             isMinikubeCluster = true;
         }
-        } 
+        }
     }
 
     /**
      * Determines whether the cluster type is minikube
-     * 
+     *
      * @return true if the cluster under test is minikube, false otherwise
      */
     protected boolean isMinikubeCluster()
@@ -109,14 +117,14 @@ public class AppAbstract
     }
 
     /**
-     * Finds a service url running in minikube. This is a generic method 
-     * based on the service type it can find the node port. 
+     * Finds a service url running in minikube. This is a generic method
+     * based on the service type it can find the node port.
      */
     protected String getUrlForMinikube(String serviceType) throws Exception
     {
         String clusterUrl = client.getMasterUrl().toString();
         logger.info("cluster URL: " + clusterUrl);
-        
+
         int nodePort = -1;
         int i = 0;
         long sleepTotal = 0;
@@ -137,7 +145,7 @@ public class AppAbstract
                     }
                 }
             }
-            
+
             // try again if url was not found
             if (nodePort == -1)
             {
@@ -147,76 +155,43 @@ public class AppAbstract
                 sleepTotal = sleepTotal + SLEEP_DURATION;
             }
         }
-        
+
         if (nodePort != -1)
         {
             return clusterUrl.replace("https", "http").replace("8443", Integer.toString(nodePort));
         }
         else
         {
-            throw new IllegalStateException("Failed to find nodePort for runType '" + serviceType +    
+            throw new IllegalStateException("Failed to find nodePort for runType '" + serviceType +
                         "' in namespace '" + clusterNamespace + "' after " + sleepTotal + " seconds");
         }
     }
 
     /**
      * Finds a service url running in AWS.
-     * 
+     *
      * @throws Exception
      */
     protected String getUrlForAWS(String serviceType) throws Exception
     {
-        logger.info("cluster URL: " + client.getMasterUrl().toString());
-        
-        String url = null;
-        int i = 0;
-        long sleepTotal = 0;
-        while ((i <= RETRY_COUNT) & (url == null))
+        if (awsUrl.isEmpty())
         {
-            List<Service> services = client.services().inNamespace(clusterNamespace).list().getItems();
-            logger.info("Found " + services.size() + " services");
-            for (Service service : services)
-            {
-                if (service.getMetadata().getName().contains(serviceType))
-                {
-                    logger.info("Looking up hostname for service: " + service.getMetadata().getName());
-                    if (service.getStatus().getLoadBalancer().getIngress().size() != 0)
-                    {
-                        url = service.getStatus().getLoadBalancer().getIngress().get(0).getHostname();
-                        break;
-                    }
-                }
-            }
-            
-            // try again if url was not found
-            if (url == null)
-            {
-                logger.info("URL is not available, sleeping for " + (SLEEP_DURATION/1000) + " seconds, retry count: " + i);
-                Thread.sleep(SLEEP_DURATION);
-                i++;
-                sleepTotal = sleepTotal + SLEEP_DURATION;
-            }
+            throw new IllegalStateException("Failed to find url for runType '" + serviceType +
+                    "' in namespace '" + clusterNamespace);
         }
-        
-        if (url == null)
-        {
-            throw new IllegalStateException("Failed to find url for runType '" + serviceType +   
-                        "' in namespace '" + clusterNamespace + "' after " + sleepTotal + " seconds");
-        }
-        
-        return "http://" + url;
+        return awsUrl;
     }
 
     /**
-     * Waits for the given URL to become available, unless the timeout period is reached, 
+     * Waits for the given URL to become available, unless the timeout period is reached,
      * in which case an exception is thrown.
-     * 
+     *
      * @throws IllegalStateException
      */
     protected void waitForURL(String url, int statusCode) throws Exception
     {
         logger.info("Waiting for '" + url + "' to become available...");
-        
+
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         CloseableHttpResponse response = null;
         int TIMEOUT = 2000;
@@ -235,7 +210,7 @@ public class AppAbstract
                 logger.info("response code " + response.getStatusLine().getStatusCode());
                 if (response.getStatusLine().getStatusCode() == statusCode)
                 {
-                    // any response here means the URL is accessible 
+                    // any response here means the URL is accessible
                     logger.info("URL is available, took " + i + " retries");
                     break;
                 }
@@ -255,14 +230,14 @@ public class AppAbstract
                 i++;
             }
         }
-        
+
         // close the http client
         httpClient.close();
-        
+
         if (i > RETRY_COUNT)
         {
             throw new IllegalStateException("URL '" + url + "' is not available");
         }
     }
-    
+
 }
