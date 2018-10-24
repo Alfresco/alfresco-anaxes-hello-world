@@ -194,7 +194,7 @@ public class AppAbstract
 
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         CloseableHttpResponse response = null;
-        int TIMEOUT = 2000;
+        int TIMEOUT = 6000;
         int i = 0;
         while (i <= RETRY_COUNT)
         {
