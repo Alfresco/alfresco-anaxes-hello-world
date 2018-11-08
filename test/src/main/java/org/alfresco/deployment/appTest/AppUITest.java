@@ -65,7 +65,7 @@ public class AppUITest extends AppAbstract
         {
             buffer.append("/");
         }
-        buffer.append("hello-ui/welcome");
+        buffer.append("hello-ui/");
         uiUrl = buffer.toString();
         
         logger.info("UI URL: " + uiUrl);
