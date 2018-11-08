@@ -37,6 +37,8 @@ The interactions between the components is shown in the following diagram:
     helm repo update
     
     cat <<EOF > ingressvalues.yaml
+    rbac:
+      create: true
     controller:
       config:
         ssl-redirect: "false"
@@ -49,7 +51,9 @@ The interactions between the components is shown in the following diagram:
     --namespace $DESIREDNAMESPACE
     ```
     
-    ** !Optional **
+    <details>
+    <summary>Optional</summary>
+    <p>
     
     If you want your own certificate set here you should create a secret from your cert files:
     
@@ -60,6 +64,8 @@ The interactions between the components is shown in the following diagram:
     Then deploy the ingress with following settings
     ```bash
     cat <<EOF > ingressvalues.yaml
+    rbac:
+      create: true
     controller:
       config:
         ssl-redirect: "false"
@@ -80,6 +86,8 @@ The interactions between the components is shown in the following diagram:
     
     ```bash
     cat <<EOF > ingressvalues.yaml
+    rbac:
+      create: true
     controller:
       config:
         ssl-redirect: "false"
@@ -101,6 +109,9 @@ The interactions between the components is shown in the following diagram:
     helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
     --namespace $DESIREDNAMESPACE
     ```
+    </p>
+    </details>
+    <br/>
 
 3. Get the nginx-ingress-controller release name from the previous command and set it as a variable:
     ```bash
