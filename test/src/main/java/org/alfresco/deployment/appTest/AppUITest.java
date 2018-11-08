@@ -128,7 +128,7 @@ public class AppUITest extends AppAbstract
             Assert.assertTrue(driver.getTitle().contains("Alfresco Anaxes Hello World App"),
                     String.format("The title is not displayed correctly and the result is [%s]", driver.getTitle()));
             // Added a wait of 5 seconds to get the dom full populated.
-            Thread.sleep(5000);
+            Thread.sleep(30000);
            Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Hello World!"),
                     String.format("The dom source does not contain'Hello World!'"));
         }
