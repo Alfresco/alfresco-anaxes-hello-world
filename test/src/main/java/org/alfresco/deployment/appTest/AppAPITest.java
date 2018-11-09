@@ -51,22 +51,19 @@ public class AppAPITest extends AppAbstract
     {
         // do common setup
         commonSetup();
-        
+
         // get the appropriate URL
         if(url.isEmpty())
         {
-        if (isMinikubeCluster())
+            if (isMinikubeCluster())
+            {
+                restApiUrl = getUrlForMinikube("ingress-controller");
+            }
+        } else
         {
-            restApiUrl = getUrlForMinikube("ingress-controller");
+            restApiUrl = url;
         }
-        else
-        {
-            restApiUrl = getUrlForAWS("ingress-controller");
-        }
-        }
-        else	restApiUrl = url;
-        
-        
+
         // add the /hello to the base url
         StringBuffer buffer = new StringBuffer(restApiUrl);
         if (!restApiUrl.endsWith("/"))
@@ -178,8 +175,7 @@ public class AppAPITest extends AppAbstract
 
     /**
      * Method which will retrive data from the response for the given value
-     * 
-     * @param response
+     *
      * @return
      * @throws Exception
      */

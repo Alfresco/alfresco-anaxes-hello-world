@@ -35,13 +35,11 @@ public class AppAbstract
     private static final String CLUSTER_TYPE = "cluster.type";
     private static final String CLUSTER_NAMESPACE = "cluster.namespace";
     private static final String URL = "restapi.url";
-    private static final String AWS_URL = "aws.url";
     private static Log logger = LogFactory.getLog(AppAbstract.class);
 
     private String clusterType;
     private String clusterNamespace;
     protected String url;
-    private String awsUrl;
     private boolean isMinikubeCluster = false;
     private Properties appProperty = new Properties();
     private KubernetesClient client = new DefaultKubernetesClient();
@@ -71,13 +69,6 @@ public class AppAbstract
         if (clusterType == null)
         {
             clusterType = appProperty.getProperty(CLUSTER_TYPE);
-        }
-
-        // get elburl
-        awsUrl = System.getProperty(AWS_URL);
-        if (awsUrl == null)
-        {
-            awsUrl = appProperty.getProperty(AWS_URL);
         }
 
         // get cluster namespace, first check system property, fall back to properties file
@@ -165,21 +156,6 @@ public class AppAbstract
             throw new IllegalStateException("Failed to find nodePort for runType '" + serviceType +
                         "' in namespace '" + clusterNamespace + "' after " + sleepTotal + " seconds");
         }
-    }
-
-    /**
-     * Finds a service url running in AWS.
-     *
-     * @throws Exception
-     */
-    protected String getUrlForAWS(String serviceType) throws Exception
-    {
-        if (awsUrl.isEmpty())
-        {
-            throw new IllegalStateException("Failed to find url for runType '" + serviceType +
-                    "' in namespace '" + clusterNamespace);
-        }
-        return awsUrl;
     }
 
     /**
