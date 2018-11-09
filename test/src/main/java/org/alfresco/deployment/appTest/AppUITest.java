@@ -44,20 +44,16 @@ public class AppUITest extends AppAbstract
     {
         // do common setup
         commonSetup();
-        
+
         // get the appropriate URL
-        if(url.isEmpty())
+        if (url.isEmpty())
         {
-        if (isMinikubeCluster())
-        {
-            uiUrl = getUrlForMinikube("ingress-controller");
-        }
-        else
-        {
-            uiUrl = getUrlForAWS("ingress-controller");
-        }
-        }
-        else uiUrl = url;
+            if (isMinikubeCluster())
+            {
+                uiUrl = getUrlForMinikube("ingress-controller");
+
+            }
+        } else uiUrl = url;
         
      // add the /hello to the base url
         StringBuffer buffer = new StringBuffer(uiUrl);
