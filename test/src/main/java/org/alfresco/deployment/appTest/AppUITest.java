@@ -44,20 +44,16 @@ public class AppUITest extends AppAbstract
     {
         // do common setup
         commonSetup();
-        
+
         // get the appropriate URL
-        if(url.isEmpty())
+        if (url.isEmpty())
         {
-        if (isMinikubeCluster())
-        {
-            uiUrl = getUrlForMinikube("ingress-controller");
-        }
-        else
-        {
-            uiUrl = getUrlForAWS("ingress-controller");
-        }
-        }
-        else uiUrl = url;
+            if (isMinikubeCluster())
+            {
+                uiUrl = getUrlForMinikube("ingress-controller");
+
+            }
+        } else uiUrl = url;
         
      // add the /hello to the base url
         StringBuffer buffer = new StringBuffer(uiUrl);
@@ -65,7 +61,7 @@ public class AppUITest extends AppAbstract
         {
             buffer.append("/");
         }
-        buffer.append("hello-ui/welcome");
+        buffer.append("hello-ui/");
         uiUrl = buffer.toString();
         
         logger.info("UI URL: " + uiUrl);
@@ -101,7 +97,7 @@ public class AppUITest extends AppAbstract
             String htmlOutput = result.toString();
             
             Assert.assertFalse(htmlOutput.contains("error"), String.format("The page is not loaded correctly it contains error [%s]", htmlOutput));
-            Assert.assertTrue(htmlOutput.contains("<title>Demo Application</title>"), String.format("The title is not displayed correctly and the result is [%s]",htmlOutput));
+            Assert.assertTrue(htmlOutput.contains("<title>Alfresco Anaxes Hello World App</title>"), String.format("The title is not displayed correctly and the result is [%s]",htmlOutput));
         }
         finally
         {
@@ -125,10 +121,10 @@ public class AppUITest extends AppAbstract
         {
             driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.firefox());
             driver.navigate().to(uiUrl);
-            Assert.assertTrue(driver.getTitle().contains("Demo Application"),
+            Assert.assertTrue(driver.getTitle().contains("Alfresco Anaxes Hello World App"),
                     String.format("The title is not displayed correctly and the result is [%s]", driver.getTitle()));
             // Added a wait of 5 seconds to get the dom full populated.
-            Thread.sleep(5000);
+            Thread.sleep(30000);
            Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Hello World!"),
                     String.format("The dom source does not contain'Hello World!'"));
         }
