@@ -32,11 +32,11 @@ The interactions between the components is shown in the following diagram:
    export DESIREDNAMESPACE=example
    ```
 
-2. As part of the infrastucture pull the ingress chart to the namespace based on the instruction provided [here](https://github.com/Alfresco/alfresco-infrastructure-deployment/tree/DEPLOY-632#nginx-ingress-custom-configuration). 
+2. Pull the infrastructure chart to the namespace based on the instruction provided [here](https://github.com/Alfresco/alfresco-infrastructure-deployment/#nginx-ingress-custom-configuration). 
 
-3. Get the nginx-ingress-controller release name from the previous command and set it as a variable:
+3. Get the infrastructure release name from the previous command and set it as a variable:
     ```bash
-    export INGRESSRELEASE=knobby-wolf
+    export INFRARELEASE=knobby-wolf
     ```
 
 4. Add the helm repository so that chart dependencies can be pulled:
@@ -74,7 +74,7 @@ The interactions between the components is shown in the following diagram:
 1. Run the following command to get url for UI
 
     ```bash
-    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-ui/welcome"
+    echo "http://$(kubectl get services $INFRARELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-ui/welcome"
     ```
 
 2. Navigate to the returned URL to use the UI. The screenshot below shows what you should see.
@@ -89,7 +89,7 @@ Check out the next steps to find out how you can create a new key.
 1. Run the following command to get service 
 
     ```bash
-    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-service/hello/"
+    echo "http://$(kubectl get services $INFRARELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-service/hello/"
     ```
 
 2. Use the following curl command to test the REST API.
@@ -126,10 +126,10 @@ into the [Postman app](https://www.getpostman.com/docs/) and use it there.
     helm ls --namespace $DESIREDNAMESPACE
     ```
 
-2. Run the command below with the appropriate release name to uninstall the deployment and the ingress controller:
+2. Run the command below with the appropriate release name to uninstall the infrastructure and this deployment:
 
     ```bash
-    helm delete --purge [release-name] $INGRESSRELEASE
+    helm delete --purge [release-name]
     ```
 
 3. Ensure everything has been removed by running the following command:
