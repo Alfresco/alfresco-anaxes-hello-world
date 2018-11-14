@@ -32,79 +32,11 @@ The interactions between the components is shown in the following diagram:
    export DESIREDNAMESPACE=example
    ```
 
-2. As part of the infrastucture pull the ingress chart to the namespace
-    ```bash
-    helm repo update
-    
-    cat <<EOF > ingressvalues.yaml
-    controller:
-      config:
-        ssl-redirect: "false"
-      scope:
-        enabled: true
-        namespace: $DESIREDNAMESPACE
-    EOF
-    
-    helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
-    --namespace $DESIREDNAMESPACE
-    ```
-    
-    ** !Optional **
-    
-    If you want your own certificate set here you should create a secret from your cert files:
-    
-    ```bash
-    kubectl create secret tls certsecret --key /tmp/tls.key --cert /tmp/tls.crt --namespace $DESIREDNAMESPACE
-    ```
-    
-    Then deploy the ingress with following settings
-    ```bash
-    cat <<EOF > ingressvalues.yaml
-    controller:
-      config:
-        ssl-redirect: "false"
-      scope:
-        enabled: true
-        namespace: $DESIREDNAMESPACE
-      publishService:
-        enabled: true
-      extraArgs:
-        default-ssl-certificate: $DESIREDNAMESPACE/certsecret
-    EOF
-    
-    helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
-    --namespace $DESIREDNAMESPACE
-    ```
-    
-    Or you can add an AWS generated certificate if you want and autogenerate a route53 entry
-    
-    ```bash
-    cat <<EOF > ingressvalues.yaml
-    controller:
-      config:
-        ssl-redirect: "false"
-      scope:
-        enabled: true
-        namespace: $DESIREDNAMESPACE
-      publishService:
-        enabled: true
-      service:
-        targetPorts:
-          https: 80
-        annotations:
-          service.beta.kubernetes.io/aws-load-balancer-ssl-cert: #sslcert ARN -> https://github.com/kubernetes/kubernetes/blob/master/pkg/cloudprovider/providers/aws/aws.go
-          service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
-          # External dns will help you autogenerate an entry in route53 for your cluster. More info here -> https://github.com/kubernetes-incubator/external-dns
-          external-dns.alpha.kubernetes.io/hostname: $DESIREDNAMESPACE.YourDNSZone
-    EOF
-    
-    helm install stable/nginx-ingress --version=0.12.3 -f ingressvalues.yaml \
-    --namespace $DESIREDNAMESPACE
-    ```
+2. Pull the infrastructure chart to the namespace based on the instruction provided [here](https://github.com/Alfresco/alfresco-infrastructure-deployment/#nginx-ingress-custom-configuration). 
 
-3. Get the nginx-ingress-controller release name from the previous command and set it as a variable:
+3. Get the infrastructure release name from the previous command and set it as a variable:
     ```bash
-    export INGRESSRELEASE=knobby-wolf
+    export INFRARELEASE=knobby-wolf
     ```
 
 4. Add the helm repository so that chart dependencies can be pulled:
@@ -142,7 +74,7 @@ The interactions between the components is shown in the following diagram:
 1. Run the following command to get url for UI
 
     ```bash
-    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-ui/welcome"
+    echo "http://$(kubectl get services $INFRARELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-ui/welcome"
     ```
 
 2. Navigate to the returned URL to use the UI. The screenshot below shows what you should see.
@@ -157,7 +89,7 @@ Check out the next steps to find out how you can create a new key.
 1. Run the following command to get service 
 
     ```bash
-    echo "http://$(kubectl get services $INGRESSRELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-service/hello/"
+    echo "http://$(kubectl get services $INFRARELEASE-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[0].hostname} --namespace $DESIREDNAMESPACE)/hello-service/hello/"
     ```
 
 2. Use the following curl command to test the REST API.
@@ -194,10 +126,10 @@ into the [Postman app](https://www.getpostman.com/docs/) and use it there.
     helm ls --namespace $DESIREDNAMESPACE
     ```
 
-2. Run the command below with the appropriate release name to uninstall the deployment and the ingress controller:
+2. Run the command below with the appropriate release name to uninstall the infrastructure and this deployment:
 
     ```bash
-    helm delete --purge [release-name] $INGRESSRELEASE
+    helm delete --purge [release-name]
     ```
 
 3. Ensure everything has been removed by running the following command:
