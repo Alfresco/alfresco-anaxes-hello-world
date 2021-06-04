@@ -8,7 +8,7 @@
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<apache.httpcomponents.httpclient>4.5.3</apache.httpcomponents.httpclient>
+		<apache.httpcomponents.httpclient>4.5.13</apache.httpcomponents.httpclient>
 		<com.googlecode.json-simple>1.1.1</com.googlecode.json-simple>
 		<common.lang>2.6</common.lang>
 		<fabric8.version>2.2.101</fabric8.version>
